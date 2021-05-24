@@ -7,9 +7,9 @@ pygraphviz could need some more of your attention (it also requires python 3.7)
 Code:
 create_graph.py has all the functions to build the base graph. Needed attributes are included, edges generated and water removed. There is an issue with the resolution of 15x15px for one node. As you can see the canal between france and england is connected in the graph even though zombies are not allowed to progagate through water. This comes from the assumption that a graph node which represents water is only discarded if all 225 pixels of this node are water. With this we don't loose sea cities (as e.g. Brest) by accident but have the mentioned advantage. Solution would be to have finer resolution.
 
-The graph looks like this, but is very slow to generate (~15 Minutes)
+The graph looks like this, but is very slow to generate (~15 Minutes):
 
-[First Graph Represenation](graph.png)
+![image](graph.png)
 
 
 imageprocessing.py imports and transforms the bit map images. Here the elevation file is interesting as it is converted to HVE colorspace where we can then use the 'hue' value as linear mapping. 
