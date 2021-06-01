@@ -13,7 +13,7 @@ Created on Thu Nov 23 17:37:59 2017
 import struct
 import os
 
-input_filename = os.path.join(os.path.dirname(__file__), 'elevation1x1_new-mer-bleue.bmp')
+input_filename = os.path.join(os.path.dirname(__file__), 'population-density-map.bmp')
 
 bmp = open(input_filename, 'rb') # open a binary file
 print('-- First part of the header, information about the file (14 bytes)')
@@ -115,12 +115,12 @@ print(p.shape)
 #             # Coordinates (x,y) of the red pixel: (669,1306)
 
 #Here is a more efficient method to get the location of the green and red pixels
-mask = np.all(p == (0, 255, 0), axis=-1)
-z = np.transpose(np.where(mask))
-print("Coordinates (x,y) of the green pixel: (%d,%d)" % (z[0][1],z[0][0]))
-mask = np.all(p == (255, 0, 0), axis=-1)
-z = np.transpose(np.where(mask))
-print("Coordinates (x,y) of the red pixel: (%d,%d)" % (z[0][1],z[0][0]))
+# mask = np.all(p == (0, 255, 0), axis=-1)
+# z = np.transpose(np.where(mask))
+# print("Coordinates (x,y) of the green pixel: (%d,%d)" % (z[0][1],z[0][0]))
+# mask = np.all(p == (255, 0, 0), axis=-1)
+# z = np.transpose(np.where(mask))
+# print("Coordinates (x,y) of the red pixel: (%d,%d)" % (z[0][1],z[0][0]))
 
 
 # Now we have the source and the target positions of our zombies
