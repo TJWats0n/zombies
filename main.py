@@ -4,33 +4,37 @@ from movements import initial_zombies, step_1, step_2, step_3, manage_zombie_age
 import numpy as np
 import pickle
 import globals
-import copy
+from globals import ttl
+from tqdm import tqdm
 
-def iter_stats(day, date, total_zombies, current_zombies):
+def total_zombies(G, node):
+    total_z = 0
+    for time in ttl:
+        total_z += G.nodes[node][time]
+    return total_z
+
+def iter_stats(day, date, current_zombies):
 
     print("====== Day:{} =========".format(day))
     print("date: {}".format(date))
-    print("total zombies: {}".format(total_zombies))
     print("current alive zombies: {}".format(current_zombies))
-    print("humans killed: {}".format(globals.global_id_counter + 117000))
+    print("humans killed: {}".format(int(globals.humans_killled + 117000)))
 
 def simulation(G_old, G_new, i=0):
     init_date = datetime.date.fromisoformat('2019-08-18')
-    while i < 150:
+    while i in tqdm(range(500)):
         cur_date = init_date + datetime.timedelta(days=i)
 
-        G_new = step_1(G_old, G_new, globals.zombie_population.keys())
-        G_new = step_2(G_new, globals.zombie_population.keys())
-        G_new = step_3(G_new, globals.zombie_population.keys())
-        current_alive = manage_zombie_age(globals.zombie_population.keys())
+        G_new = step_1(G_old, G_new, globals.nodes_with_zombies)
+        G_new = step_2(G_new, globals.nodes_with_zombies)
+        G_new = step_3(G_new, globals.nodes_with_zombies)
+        G_new, current_alive = manage_zombie_age(G_new, globals.nodes_with_zombies)
 
-        perc_died = current_alive/globals.global_id_counter
-
-        if G_new.nodes[(brest_x, brest_y)]['z_count'] > 0:
+        if total_zombies(G_new,(brest_x, brest_y)) > 0:
             print("Zombies arrived in Brest at {}".format(cur_date))
             break
 
-        iter_stats(i, cur_date, globals.global_id_counter, current_alive)
+        iter_stats(i, cur_date, current_alive)
 
         file_name = "results/graph_{}".format(cur_date)
         with open(file_name, 'wb') as out_file:
@@ -43,6 +47,7 @@ def simulation(G_old, G_new, i=0):
 
 if __name__ == '__main__':
     agg_factor = 15
+
     # G = generate_graph()
     #
     # with open('base_graph.pickle', 'wb') as out_file:
@@ -66,7 +71,7 @@ if __name__ == '__main__':
     #for dev, much faster than deepcopy
     with open('base_graph.pickle', 'rb') as in_file:
         G_new = pickle.load(in_file)
-    G_new.nodes[(rize_x, rize_y)]['z_count'] = 117321
+    G_new.nodes[(rize_x, rize_y)]['z_15'] = 117321
     G_new.nodes[(rize_x, rize_y)]['h_count'] -= 117321
     G_new.nodes[(brest_x, brest_y)]['h_count'] = 139.163  # data from 2015
 

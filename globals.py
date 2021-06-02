@@ -1,12 +1,11 @@
-# gets executed when movements.py is imported, gets changed from within zombie_creation_helper()
-global global_id_counter
-global_id_counter = 0
+#to not every time iterate the whole graph only node which have zombies are iterated. This brings good performance especially for early stages of the simulation
+global nodes_with_zombies
+nodes_with_zombies = []
 
-
-#graph cannot take a dictionary as node attribute. Therefore we use a global object with format node_key: {zombie_id: time_to_live}
-#changed from: zombie_move_helper(), zombie_destroy_helper(), zombie_creation_helper()
-global zombie_population
-zombie_population = {}
-
+#a metric accessed in several places
 global humans_killled
 humans_killled=0
+
+#helper object to iterate through all zombies (of all age) of a node
+global ttl
+ttl = ['z_1', 'z_2', 'z_3', 'z_4', 'z_5', 'z_6', 'z_7', 'z_8', 'z_9', 'z_10', 'z_11', 'z_12', 'z_13', 'z_14', 'z_15']

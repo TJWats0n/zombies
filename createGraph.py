@@ -2,6 +2,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from imageprocessing import import_population_as_array, import_elevation_as_array
 import numpy as np
+from globals import ttl
+
+def total_zombies(G, node):
+    total_z = 0
+    for time in ttl:
+        total_z += G.nodes[node][time]
+    return total_z
 
 def graph_stats(G):
     print(nx.info(G))
@@ -33,7 +40,7 @@ def draw_graph(G, test):
 def gen_color_map(G):
     color_map = []
     for node in G.nodes:
-        if G.nodes[node]['z_count'] > 0:
+        if  total_zombies(G, node)> 0:
             color_map.append('yellow')
         elif G.nodes[node]['h_count'] == 0:
             color_map.append('red')
@@ -47,9 +54,22 @@ def create_nodes(rows = 3, columns = 3):
 
     G = nx.DiGraph()
     G.add_nodes_from(nodes)
-    nx.set_node_attributes(G, 0, name='z_count')
     nx.set_node_attributes(G, 0, name='h_count')
-    nx.set_node_attributes(G, {}, name='z_population')
+    nx.set_node_attributes(G, 0, name='z_15')
+    nx.set_node_attributes(G, 0, name='z_14')
+    nx.set_node_attributes(G, 0, name='z_13')
+    nx.set_node_attributes(G, 0, name='z_12')
+    nx.set_node_attributes(G, 0, name='z_11')
+    nx.set_node_attributes(G, 0, name='z_10')
+    nx.set_node_attributes(G, 0, name='z_9')
+    nx.set_node_attributes(G, 0, name='z_8')
+    nx.set_node_attributes(G, 0, name='z_7')
+    nx.set_node_attributes(G, 0, name='z_6')
+    nx.set_node_attributes(G, 0, name='z_5')
+    nx.set_node_attributes(G, 0, name='z_4')
+    nx.set_node_attributes(G, 0, name='z_3')
+    nx.set_node_attributes(G, 0, name='z_2')
+    nx.set_node_attributes(G, 0, name='z_1')
 
     #create dictionary of positions to stick graph to a grid (2,1): [2,1]
     positions = {}
@@ -217,7 +237,7 @@ def generate_graph(test=False, agg_factor=2):
     G = remove_water(G)
     G = calc_lambda(G)
 
-    draw_graph(G, test)
+    #draw_graph(G, test)
     return G
 
     #y axis needs to be calculated from the bottom up as graph grid origin is lower left and not upper left as pictures
